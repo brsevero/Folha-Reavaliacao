@@ -7,6 +7,8 @@ class AssalariadoForm(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.pagamento = obj.salario
         obj.save()
+        lista = Assalariado.objects.all()
+        print(lista)
 
 class ComissionadoForm(admin.ModelAdmin):
     fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','comissao']
@@ -17,7 +19,7 @@ class ComissionadoForm(admin.ModelAdmin):
         obj.save()
 
 
-class HoristaForm(admin.ModelAdmin):
+class HoristaForm(admin.ModelAdmin): #TODO se trabalhar mais que 8h, recebe 1.5 na taxa
     fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','valor_hora']
     list_display = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','valor_hora','pagamento']
 
@@ -34,8 +36,6 @@ class VendaForm(admin.ModelAdmin):
         obj.comissionado.pagamento +=  (obj.comissionado.comissao/100) * obj.valor
         obj.save()
         obj.comissionado.save()
-
-
 
 # Register your models here.
 admin.site.register(Assalariado, AssalariadoForm)

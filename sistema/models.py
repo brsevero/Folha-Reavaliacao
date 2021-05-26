@@ -6,7 +6,7 @@ class Sindicato(models.Model):
     valor_sindicato = models.FloatField(default=15)
 
     def __str__(self):
-        return self.nome_do_sindicato
+        return self.nome_do_sindicato + " " + str(self.valor_sindicato)
 
 class Empregado(models.Model):
     class Meta:
