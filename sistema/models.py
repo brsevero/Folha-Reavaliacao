@@ -45,7 +45,7 @@ class CartaoDePonto(models.Model):
     horista = models.OneToOneField(Horista,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.horista + " " + self.dia
+        return self.horista.nome
 
 class Venda(models.Model):
     data_venda = models.DateField()
