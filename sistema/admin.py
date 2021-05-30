@@ -7,7 +7,7 @@ class AssalariadoForm(admin.ModelAdmin):
 
     fields = campos + ['dia_do_pagamento']
     list_display = lista_de_campos + ['dia_do_pagamento']
-    def save_model(self, request, obj, form, change): #TODO retirar essa lista de parametros não usado e colocar Long parameter list
+    def save_model():
         obj.pagamento = obj.salario
         obj.save()
         lista = Assalariado.objects.all()
@@ -17,7 +17,7 @@ class ComissionadoForm(admin.ModelAdmin):
     fields = campos + ['comissao']
     list_display = lista_de_campos + ['comissao']
 
-    def save_model(self, request, obj, form, change):
+    def save_model():
         obj.pagamento = obj.salario
         obj.save()
 
@@ -36,7 +36,7 @@ class CartaoDePontoForm(admin.ModelAdmin):
 class VendaForm(admin.ModelAdmin):
     list_display = ['data_venda','valor','comissionado']
 
-    def save_model(self, request , obj, form, change):
+    def save_model():
         obj.comissionado.pagamento +=  (obj.comissionado.comissao/100) * obj.valor
         obj.save()
         obj.comissionado.save()

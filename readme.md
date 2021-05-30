@@ -6,7 +6,7 @@ O objetivo do projeto é a implementação de melhorias e a identificação de c
 Após uma vistoria no código, foram encontrados os seguintes code smells e sua soluções adotadas.
 
 1. Duplicated Code
-   - No arquivo [admin.py]() contem duas listas, _fields_ e _list_display_ que são usadas por todas as classes repetidamente, essas listas representam os campos mostrados ao admin em vários momentos e muda-se pouca coisa em cada classe, logo temos código duplicado.
+   - No arquivo admin.py contem duas listas, _fields_ e _list_display_ que são usadas por todas as classes repetidamente, essas listas representam os campos mostrados ao admin em vários momentos e muda-se pouca coisa em cada classe, logo temos código duplicado.
    - [Antes](https://github.com/brsevero/folha_refatorada/blob/01c121f3aaa4f571c04e3791daccf96bb677567c/sistema/admin.py#L5):
    ~~~Python
    fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento', 'dia_do_pagamento']
@@ -14,10 +14,22 @@ Após uma vistoria no código, foram encontrados os seguintes code smells e sua 
     . . . 
    ~~~
    - Foi usado Data Clamp para resolver esse code smell, criando uma lista inicial que é concatenada com os dados específicos que serão mostrados
-   - [Agora]()
+   - [Agora](https://github.com/brsevero/Folha-Reavaliacao/blob/38d2cb53a932f2ab52a0dc23a30427eaee4fe016/sistema/admin.py#L4):
    ~~~Python
    campos = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento']
    lista_de_campos = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','pagamento']
+   ~~~
+
+1. Long parameter list
+   - Há uma longa lista de parâmetros para o método _save_model_, responsável por salvar o objeto no banco de dados
+   - [Antes](https://github.com/brsevero/folha_refatorada/blob/01c121f3aaa4f571c04e3791daccf96bb677567c/sistema/admin.py#L7):
+   ~~~Python
+   def save_model(self, request, obj, form, change):
+   ~~~
+   - Esse code Smell foi resolvido retirando essa lista
+   - [Agora]()
+   ~~~Python
+   def save_model():
    ~~~
 
 ## Instalando Depedências
