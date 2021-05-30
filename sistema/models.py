@@ -21,7 +21,7 @@ class Empregado(models.Model):
     nome = models.CharField(max_length=100)
     endereco = models.CharField(max_length=100)
     sindicato = models.ForeignKey(Sindicato,on_delete=models.CASCADE,blank=True,null=True)
-    salario = models.FloatField(default=1000)
+    salario = models.FloatField(default=1000) #TODO retirar salario e colocar nas classes filhas
     metodo_de_pagamento = models.CharField(max_length=25,choices=METODO,default='1')
     pagamento = models.FloatField(blank=True,null=True,default=0)
 
@@ -31,9 +31,11 @@ class Empregado(models.Model):
 
 class Assalariado(Empregado):
     dia_do_pagamento = models.DateField()
+    #TODO colocar um saláio base padrão
 
 class Comissionado(Empregado):
     comissao = models.FloatField()
+    #TODO colocar um saláio base padrão
 
 class Horista(Empregado):
     valor_hora = models.FloatField()
@@ -52,5 +54,6 @@ class Venda(models.Model):
     valor = models.FloatField()
     comissionado = models.ForeignKey(Comissionado,on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
+    def __str__(self):
+        #TODO retirar self.comissionado.nome da representação
         return "Dia: " + str(self.data_venda) + " " + self.comissionado.nome + " " + str(self.valor)

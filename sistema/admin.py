@@ -1,27 +1,31 @@
 from django.contrib import admin
 from sistema.models import *
 
+campos = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento']
+lista_de_campos = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','pagamento']
 class AssalariadoForm(admin.ModelAdmin):
-    fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento', 'dia_do_pagamento']
-    list_display = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento', 'dia_do_pagamento','pagamento']
-    def save_model(self, request, obj, form, change):
+
+    fields = campos + ['dia_do_pagamento']
+    list_display = lista_de_campos + ['dia_do_pagamento']
+    def save_model(self, request, obj, form, change): #TODO retirar essa lista de parametros não usado e colocar Long parameter list
         obj.pagamento = obj.salario
         obj.save()
         lista = Assalariado.objects.all()
         #print(lista)
 
 class ComissionadoForm(admin.ModelAdmin):
-    fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','comissao']
-    list_display = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','comissao','pagamento']
+    fields = campos + ['comissao']
+    list_display = lista_de_campos + ['comissao']
 
     def save_model(self, request, obj, form, change):
         obj.pagamento = obj.salario
         obj.save()
 
-
+#TODO retirar o salario de horista e colocar como Long parameter list
 class HoristaForm(admin.ModelAdmin): #TODO se trabalhar mais que 8h, recebe 1.5 na taxa
-    fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','valor_hora']
-    list_display = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','valor_hora','pagamento']
+
+    fields = campos + ['valor_hora']
+    list_display = lista_de_campos + ['valor_hora']
 
 class SindicatoForm(admin.ModelAdmin):
     list_display = ['nome_do_sindicato','taxa','valor_sindicato']
