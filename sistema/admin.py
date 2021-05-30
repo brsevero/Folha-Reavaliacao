@@ -8,7 +8,7 @@ class AssalariadoForm(admin.ModelAdmin):
         obj.pagamento = obj.salario
         obj.save()
         lista = Assalariado.objects.all()
-        print(lista)
+        #print(lista)
 
 class ComissionadoForm(admin.ModelAdmin):
     fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento','comissao']
