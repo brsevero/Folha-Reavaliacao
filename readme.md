@@ -55,7 +55,7 @@ Após uma vistoria no código, foram encontrados os seguintes code smells e sua 
     def __str__(self):
         return self.nome
    ~~~
-   - [Agora]()
+   - [Agora](https://github.com/brsevero/Folha-Reavaliacao/blob/ae88a67e5e342edcb490afcacbd743ba3e632b6d/sistema/models.py#L11)
    ~~~Python
    class Empregado(models.Model):
     class Meta:
@@ -73,12 +73,9 @@ Após uma vistoria no código, foram encontrados os seguintes code smells e sua 
         return self.nome
    ~~~
 
-
-
-
-
-
-
+1. Outros
+   - Foram mudados alguns retornos de __str__ de algumas classes para melhor vizualização no sistema e do programador
+   - Foram removidas as variáveis que não eram usadas
 
 ## Instalando Depedências
 - O sistema foi criado em _Python 3.9.5_, então é necessário a linguagem Python para funcionar
