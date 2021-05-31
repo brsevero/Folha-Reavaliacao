@@ -21,9 +21,8 @@ class Empregado(models.Model):
     pagamento = models.FloatField(blank=True,null=True,default=0)
 
     def __str__(self):
-        return self.nome
+        return str(self.nome)
     
-
 class Assalariado(Empregado):
     dia_do_pagamento = models.DateField()
     salario = models.FloatField(default=1000)
@@ -34,7 +33,7 @@ class Comissionado(Empregado):
 
 class Horista(Empregado):
     valor_hora = models.FloatField()
-    salario = models.FloatField(default=1000,null=True,blank=True)
+    salario = models.FloatField(default=0,null=True,blank=True)
 
 
 class CartaoDePonto(models.Model):
@@ -51,5 +50,4 @@ class Venda(models.Model):
     comissionado = models.ForeignKey(Comissionado,on_delete=models.CASCADE)
 
     def __str__(self):
-        #TODO retirar self.comissionado.nome da representação
-        return "Dia: " + str(self.data_venda) + " " + self.comissionado.nome + " " + str(self.valor)
+        return "Dia: " + str(self.data_venda) + " " + str(self.valor)
