@@ -6,12 +6,11 @@ O objetivo do projeto é a implementação de melhorias e a identificação de c
 Após uma vistoria no código, foram encontrados os seguintes code smells e sua soluções adotadas.
 
 1. Duplicated Code
-   - No arquivo admin.py contem duas listas, _fields_ e _list_display_ que são usadas por todas as classes repetidamente, essas listas representam os campos mostrados ao admin em vários momentos e muda-se pouca coisa em cada classe, logo temos código duplicado.
+   - No arquivo __admin.py__ contem duas listas, _fields_ e _list_display_ que são usadas por todas as classes repetidamente, essas listas representam os campos mostrados ao admin em vários momentos e muda-se pouca coisa em cada classe, logo temos código duplicado.
    - [Antes](https://github.com/brsevero/folha_refatorada/blob/01c121f3aaa4f571c04e3791daccf96bb677567c/sistema/admin.py#L5):
    ~~~Python
    fields = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento', 'dia_do_pagamento']
     list_display = ['nome', 'endereco', 'sindicato', 'salario', 'metodo_de_pagamento', 'dia_do_pagamento','pagamento']
-    . . . 
    ~~~
    - Foi usado Data Clamp para resolver esse code smell, criando uma lista inicial que é concatenada com os dados específicos que serão mostrados
    - [Agora](https://github.com/brsevero/Folha-Reavaliacao/blob/38d2cb53a932f2ab52a0dc23a30427eaee4fe016/sistema/admin.py#L4):
@@ -27,10 +26,59 @@ Após uma vistoria no código, foram encontrados os seguintes code smells e sua 
    def save_model(self, request, obj, form, change):
    ~~~
    - Esse code Smell foi resolvido retirando essa lista
-   - [Agora]()
+   - [Agora](https://github.com/brsevero/Folha-Reavaliacao/blob/39d0e1ea912bab7cb8a998a80199cd8f2804c4ce/sistema/admin.py#L10)
    ~~~Python
    def save_model():
    ~~~
+
+1. Shotgun Surgery
+   - A classe _Empregado_ em __models.py__ possuia muitos atributos e era de difícil manutenção, ela foi encurtada retirando o atributo _salario_, que era a maior causa de dificuldades no projeto, e colocando-o em suas classes filhas. Agora a manutenção das classes filhas está facilitada.
+   - [Antes](https://github.com/brsevero/folha_refatorada/blob/01c121f3aaa4f571c04e3791daccf96bb677567c/sistema/models.py#L24)
+   ~~~Python
+   class Empregado(models.Model):
+    class Meta:
+        abstract = True
+
+    METODO = [
+        ('1','Cheque Em Maos'),
+        ('2','Cheque no Correio'),
+        ('3','Deposito em Conta')
+    ]
+
+    nome = models.CharField(max_length=100)
+    endereco = models.CharField(max_length=100)
+    sindicato = models.ForeignKey(Sindicato,on_delete=models.CASCADE,blank=True,null=True)
+    salario = models.FloatField(default=1000)
+    metodo_de_pagamento = models.CharField(max_length=25,choices=METODO,default='1')
+    pagamento = models.FloatField(blank=True,null=True,default=0)
+
+    def __str__(self):
+        return self.nome
+   ~~~
+   - [Agora]()
+   ~~~Python
+   class Empregado(models.Model):
+    class Meta:
+        abstract = True
+
+    METODO = [('1','Cheque Em Maos'),('2','Cheque no Correio'),('3','Deposito em Conta')]
+
+    nome = models.CharField(max_length=100)
+    endereco = models.CharField(max_length=100)
+    sindicato = models.ForeignKey(Sindicato,on_delete=models.CASCADE,blank=True,null=True)
+    metodo_de_pagamento = models.CharField(max_length=25,choices=METODO,default='1')
+    pagamento = models.FloatField(blank=True,null=True,default=0)
+
+    def __str__(self):
+        return self.nome
+   ~~~
+
+
+
+
+
+
+
 
 ## Instalando Depedências
 - O sistema foi criado em _Python 3.9.5_, então é necessário a linguagem Python para funcionar

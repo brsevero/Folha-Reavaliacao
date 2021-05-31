@@ -12,16 +12,11 @@ class Empregado(models.Model):
     class Meta:
         abstract = True
 
-    METODO = [
-        ('1','Cheque Em Maos'),
-        ('2','Cheque no Correio'),
-        ('3','Deposito em Conta')
-    ]
+    METODO = [('1','Cheque Em Maos'),('2','Cheque no Correio'),('3','Deposito em Conta')]
 
     nome = models.CharField(max_length=100)
     endereco = models.CharField(max_length=100)
     sindicato = models.ForeignKey(Sindicato,on_delete=models.CASCADE,blank=True,null=True)
-    salario = models.FloatField(default=1000) #TODO retirar salario e colocar nas classes filhas
     metodo_de_pagamento = models.CharField(max_length=25,choices=METODO,default='1')
     pagamento = models.FloatField(blank=True,null=True,default=0)
 
@@ -31,14 +26,15 @@ class Empregado(models.Model):
 
 class Assalariado(Empregado):
     dia_do_pagamento = models.DateField()
-    #TODO colocar um saláio base padrão
+    salario = models.FloatField(default=1000)
 
 class Comissionado(Empregado):
     comissao = models.FloatField()
-    #TODO colocar um saláio base padrão
+    salario = models.FloatField(default=1000)
 
 class Horista(Empregado):
     valor_hora = models.FloatField()
+    salario = models.FloatField(default=1000,null=True,blank=True)
 
 
 class CartaoDePonto(models.Model):

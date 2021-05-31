@@ -21,8 +21,7 @@ class ComissionadoForm(admin.ModelAdmin):
         obj.pagamento = obj.salario
         obj.save()
 
-#TODO retirar o salario de horista e colocar como Long parameter list
-class HoristaForm(admin.ModelAdmin): #TODO se trabalhar mais que 8h, recebe 1.5 na taxa
+class HoristaForm(admin.ModelAdmin):
 
     fields = campos + ['valor_hora']
     list_display = lista_de_campos + ['valor_hora']
